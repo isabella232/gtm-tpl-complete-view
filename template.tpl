@@ -267,6 +267,7 @@ ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 const log = require('logToConsole'),
     query = require('queryPermission'),
     random = require('generateRandom'),
+    encodeUriComponent = require('encodeUriComponent'),
     getTimestamp = require('getTimestamp'),
     getQueryParameters = require('getQueryParameters'),
     getReferrerQueryParameters = require('getReferrerQueryParameters'),
@@ -277,7 +278,7 @@ const log = require('logToConsole'),
 const paramName = 'lqmclid';
 let lqmclid = '';
 
-log('LQM complete view pixel v1.07');
+log('LQM complete view pixel v1.08');
 let msg = 'data: ';
 for (let i in data) msg += '\n' + i + ': ' + data[i];
 log(msg);
@@ -309,7 +310,7 @@ if (typeof lqmclid !== 'undefined' && lqmclid !== '') {
         log('no permission to set cookie');
     }
     // fire the pixel
-    let url = 'https://tracking.lqm.io/odin/complete_view/' + lqmclid.toString() + '?cb=' + getTimestamp();
+    let url = 'https://tracking.lqm.io/odin/complete_view/' + encodeUriComponent(lqmclid.toString()) + '?cb=' + getTimestamp();
     if (query('send_pixel', url)) {
         log('firing pixel: ' + url);
         sendPixel(url, data.gtmOnSuccess, data.gtmOnFailure);
